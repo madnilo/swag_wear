@@ -29,7 +29,7 @@ const ItemsList = styled.div`
     margin: 0 auto;
 `
 
-export default class items extends Component {
+class Items extends Component {
     render() {
         return (
             <Content>
@@ -47,3 +47,6 @@ export default class items extends Component {
         )
     }
 }
+
+export default Items;
+// export { ALL_ITEMS_QUERY };
