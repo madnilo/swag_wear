@@ -51,6 +51,25 @@ class CreateItem extends Component {
     //     console.log("hi")
     // }
 
+    uploadImage = async event => {
+        console.log('uploading...')
+        const files = event.target.files
+        const data = new FormData()
+        data.append('file', files[0])
+        data.append('upload_preset', 'swagwear')
+        const res = await fetch('https://api.cloudinary.com/v1_1/madnilo/image/upload', {
+            method: 'POST',
+            body: data
+        })
+        const image = await res.json()
+        console.log(image)
+        this.setState({
+            image: image.secure_url,
+            largeImage: image.eager[0].secure_url
+        })
+
+    }
+
     render() {
         const { title, description, image, largeImage, price } = this.state
         return (
@@ -67,6 +86,12 @@ class CreateItem extends Component {
                     }}>
                         <ErrorMessage error={err} />
                         <fieldset disabled={loading} aria-busy={loading}>
+                            <label htmlFor="image">
+                                Image
+                            <input type="file" id="image" name="image"
+                                    placeholder="Upload an image" onChange={this.uploadImage}></input>
+                                {image && <img src={image} alt="Image preview" width="150" />}
+                            </label>
                             <label htmlFor="title">
                                 Title
                             <input type="text" id="title" name="title" value={title}
