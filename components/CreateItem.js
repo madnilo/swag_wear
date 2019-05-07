@@ -28,16 +28,11 @@ mutation CREATE_ITEM_MUTATION(
 
 class CreateItem extends Component {
     state = {
-        title: 'Tenis Nike Air',
-        description: 'Super cool shoes',
+        title: '',
+        description: '',
         image: '',
         largeImage: '',
-        price: 13000,
-        // title: '',
-        // description: '',
-        // image: '',
-        // largeImage: '',
-        // price: 0,
+        price: 0,
     }
 
     handleChange = event => {
@@ -45,11 +40,6 @@ class CreateItem extends Component {
         const realValue = type === 'number' ? parseFloat(value) : value
         this.setState({ [name]: realValue })
     }
-
-    // handleSubmit = event => {
-    //     event.preventDefault()
-    //     console.log("hi")
-    // }
 
     uploadImage = async event => {
         console.log('uploading...')
@@ -74,7 +64,7 @@ class CreateItem extends Component {
         const { title, description, image, largeImage, price } = this.state
         return (
             <Mutation mutation={CREATE_ITEM_MUTATION} variables={this.state}>
-                {(createItem, { loading, err }) => (
+                {(createItem, { loading, error }) => (
 
                     <Form onSubmit={async e => {
                         e.preventDefault()
@@ -84,7 +74,7 @@ class CreateItem extends Component {
                             query: { id: res.data.createItem.id }
                         })
                     }}>
-                        <ErrorMessage error={err} />
+                        <ErrorMessage error={error} />
                         <fieldset disabled={loading} aria-busy={loading}>
                             <label htmlFor="image">
                                 Image
